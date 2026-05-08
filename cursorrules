@@ -1,0 +1,69 @@
+You are working on meridian-vscode — the VS Code extension wrapper for
+Meridian, an AI architectural review agent.
+
+## What this project is
+- A thin VS Code extension (~300-400 lines total)
+- It spawns the meridian-mcp Rust binary as a child process
+- Communicates with it via MCP JSON-RPC over stdio
+- Renders findings as inline editor decorations + Problems panel entries
+- Has a webview sidebar panel for detailed finding display
+
+## What this project is NOT
+- It contains NO architectural analysis logic
+- It makes NO direct calls to Claude or the Anthropic API
+- It does NOT scan files itself — the Rust binary does that
+- It does NOT call the Java backend directly
+
+## File structure (keep it flat — this is intentionally thin)
+- src/extension.ts     — activation, commands, save listener
+- src/mcpClient.ts     — spawns binary, JSON-RPC comms
+- src/decorations.ts   — inline editor decorations + diagnostics
+- src/statusBar.ts     — status bar item
+- src/findingsPanel.ts — webview findings sidebar
+
+## VS Code API rules
+- Always use ThemeColor for colors — never hardcode hex values
+- Use vscode.DiagnosticCollection for Problems panel integration
+- Decorations must be cleared before re-applying (avoid stacking)
+- Webview HTML must escape all user content (use escHtml helper)
+- Never use position: fixed in webview CSS (breaks iframe height)
+
+## TypeScript rules for this project
+- Strict mode on — no any, no non-null assertions without comment
+- Dispose pattern: every disposable pushed to context.subscriptions
+- Async errors must be caught — never let unhandled rejections surface
+- Keep extension.ts as the only file that touches vscode.window directly
+
+## MCP client rules
+- Binary spawned once on activation, reused for all calls
+- 30s timeout on all requests — Claude calls take time
+- Stderr from binary goes to OutputChannel (not console.error in prod)
+- Dispose kills the child process cleanly
+
+## Testing
+- Test with F5 in VS Code (Extension Development Host)
+- Use a fixture project with known violations as the test workspace
+- Check: decoration renders, Problems panel updates, status bar changes
+
+## Markdown edit application rules
+
+- Fenced code blocks are allowed and preferred in Markdown documents when they improve readability.
+- When editing an existing Markdown file, provide one applyable snippet per file whenever possible.
+- If the edit includes fenced code blocks, include the whole affected section or the whole file in a single applyable snippet so it can be applied with one click.
+- Do not split Markdown edits into many individually applyable fenced blocks.
+- Preserve language identifiers on fenced code blocks inside Markdown content.
+- Prefer replacing a complete section, such as from one `##` heading to the next `##` heading, when the section contains fenced code blocks.
+- If many Markdown code fences are involved, provide the full updated file content as one applyable snippet.
+- Optimize Markdown file edits for one-click apply while keeping the final Markdown document readable.
+- Always specify the language for fenced code blocks.
+- Tables must be visually aligned.
+- Pad table cells with spaces so column separators line up.
+- Use separator rows with enough hyphens to match the column width.
+- Avoid compact table separators like `|---|---|`.
+
+Example of the preferred table style:
+
+| File                      | Purpose                                                                   |
+|---------------------------| ------------------------------------------------------------------------- |
+| `docker-compose.yml`      | Local development stack, including GitLab CE and Meridian services        |
+| `docker-compose.prod.yml` | Production-oriented stack, excluding GitLab and local-only infrastructure |
