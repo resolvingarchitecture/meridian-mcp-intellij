@@ -1,0 +1,81 @@
+<idea-plugin>
+    <id>meridian.intellij</id>
+    <name>Meridian</name>
+    <vendor email="support@resolvingarchitecture.com" url="https://resolvingarchitecture.com">
+        Resolving Architecture
+    </vendor>
+
+    <description>
+        <![CDATA[
+        Meridian is an AI architecture review assistant for IntelliJ-based IDEs.
+        This plugin is a thin IDE adapter over the local meridian-mcp runtime.
+        ]]>
+    </description>
+
+    <depends>com.intellij.modules.platform</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <projectService serviceImplementation="meridian.intellij.settings.MeridianSettingsState"/>
+        <postStartupActivity implementation="meridian.intellij.startup.MeridianStartupActivity"/>
+        <applicationConfigurable
+                instance="meridian.intellij.settings.MeridianConfigurable"
+                id="meridian.settings"
+                displayName="Meridian"/>
+        <toolWindow
+                id="Meridian"
+                anchor="right"
+                factoryClass="meridian.intellij.findings.MeridianFindingsToolWindowFactory"
+                canCloseContents="false"/>
+    </extensions>
+
+    <actions>
+        <group id="Meridian.Actions"
+               text="Meridian"
+               description="Meridian architecture review actions"
+               popup="true">
+            <add-to-group group-id="ToolsMenu" anchor="last"/>
+
+            <action id="Meridian.InstallMcpBinary"
+                    class="meridian.intellij.actions.InstallMcpBinaryAction"
+                    text="Meridian: Install MCP Binary"
+                    description="Download and install the Meridian MCP binary into plugin-managed storage"/>
+
+            <separator/>
+
+            <action id="Meridian.ScanProject"
+                    class="meridian.intellij.actions.ScanProjectAction"
+                    text="Meridian: Scan Project"
+                    description="Scan the current project through meridian-mcp"/>
+
+            <action id="Meridian.ReviewCurrentFile"
+                    class="meridian.intellij.actions.ReviewCurrentFileAction"
+                    text="Meridian: Review Current File"
+                    description="Review the active editor file through Meridian"/>
+
+            <action id="Meridian.AddSelectionAsContext"
+                    class="meridian.intellij.actions.AddSelectionAsContextAction"
+                    text="Meridian: Add Selection as Context"
+                    description="Send selected editor text as Meridian architecture context"/>
+
+            <action id="Meridian.ClearContext"
+                    class="meridian.intellij.actions.ClearContextAction"
+                    text="Meridian: Clear Context"
+                    description="Clear Meridian architecture context"/>
+
+            <action id="Meridian.ClearFindings"
+                    class="meridian.intellij.actions.ClearFindingsAction"
+                    text="Meridian: Clear Findings"
+                    description="Clear local Meridian findings"/>
+
+            <action id="Meridian.OpenFindings"
+                    class="meridian.intellij.actions.OpenFindingsAction"
+                    text="Meridian: Open Findings"
+                    description="Open the Meridian findings tool window"/>
+
+            <action id="Meridian.Diagnostics"
+                    class="meridian.intellij.actions.DiagnosticsAction"
+                    text="Meridian: Diagnostics"
+                    description="Show Meridian plugin diagnostics"/>
+        </group>
+    </actions>
+</idea-plugin>
