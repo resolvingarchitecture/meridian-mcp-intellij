@@ -145,6 +145,47 @@ The plugin may clear currently displayed findings from editor annotations/highli
 
 Clearing displayed findings is a local UI action. It does not imply deletion of backend account state, usage records, or durable product data.
 
+### 5.6 Skill workflow questions and Architecture Model privacy
+
+In Meridian, backend **Skill** is synonymous with Resolving Architecture **Service**.
+
+The IntelliJ plugin should treat backend skill workflow responses as architecture-assistant guidance delivered through MCP. The plugin should not implement skill workflow process logic locally.
+
+When MCP returns backend-generated questions, the plugin should be able to present them to the user or agent-facing IDE surface.
+
+Question responses may occur when:
+
+- a full review lacks enough context;
+- an intermediate review lacks a prior baseline or needs clarification;
+- a selected skill/service needs business, technical, stakeholder, decision, stack, or scope context;
+- the backend cannot make a credible recommendation without more information.
+
+The plugin should render question responses as workflow guidance, not as failures.
+
+The Architecture Model is persisted by `meridian-mcp`, not by the IntelliJ plugin and not by the backend.
+
+The plugin should preserve this boundary:
+
+- do not persist Architecture Models in plugin settings or workspace state;
+- do not persist raw source files as plugin telemetry;
+- do not log raw Architecture Model payloads;
+- do not imply that backend stores the Architecture Model;
+- explain, where useful, that MCP keeps the local model and backend persists only analysis results and privacy-safe records.
+
+Conceptual flow:
+
+```text
+IntelliJ action 
+    → meridian-intellij calls MCP 
+    → meridian-mcp sends local Architecture Model to backend 
+    → backend returns findings, limitations, or questions 
+    → meridian-intellij displays findings or questions 
+    → user/agent answers questions 
+    → meridian-mcp updates local Architecture Model 
+    → backend workflow continues when requested
+```
+The plugin remains a presentation layer.
+
 ## 6. MCP Client Design
 
 The IntelliJ MCP client owns the local process and JSON-RPC wiring for the MCP server.
@@ -179,22 +220,23 @@ MCP stdout must remain protocol-safe. Logs from the MCP process should be routed
 
 The plugin should contribute these user-facing actions:
 
-| Action                              | Responsibility                                      |
-|-------------------------------------|-----------------------------------------------------|
-| Meridian: Scan Project              | Ask `meridian-mcp` to scan and cache project model  |
-| Meridian: Review Current File       | Review the current file through MCP                 |
-| Meridian: Add Selection as Context  | Send selected text as architecture context          |
-| Meridian: Clear Context             | Clear active architecture context where supported   |
-| Meridian: Clear Findings            | Clear locally displayed findings                    |
-| Meridian: Open Findings             | Focus the Meridian findings tool window or panel    |
-| Meridian: Diagnostics               | Show local plugin/MCP configuration health          |
+| Action                              | Responsibility                                                                                       |
+|-------------------------------------|------------------------------------------------------------------------------------------------------|
+| Meridian: Scan Project              | Ask `meridian-mcp` to scan and cache project model                                                   |
+| Meridian: Review Current File       | Review the current file through MCP                                                                  |
+| Meridian: Add Selection as Context  | Send selected text as architecture context                                                           |
+| Meridian: Clear Context             | Clear active architecture context where supported                                                    |
+| Meridian: Clear Findings            | Clear locally displayed findings                                                                     |
+| Meridian: Open Findings             | Focus the Meridian findings tool window or panel                                                     |
+| Meridian: Diagnostics               | Show local plugin/MCP configuration health                                                           |
+| Meridian: Answer Workflow Questions | Present and submit answers to backend-generated skill workflow questions through MCP where supported |
 
 ### 7.2 Configuration
 
 The plugin should expose these settings:
 
-| Setting                          | Purpose                                                        |
-|----------------------------------|----------------------------------------------------------------|
+| Setting                          | Purpose                                                         |
+|----------------------------------|-----------------------------------------------------------------|
 | Meridian API key                 | Meridian API key passed to the local MCP process                |
 | MCP binary path                  | Optional path to `meridian-mcp`; defaults to resolved binary    |
 | Enable realtime review           | Enables review-on-save or review-on-document-sync behavior      |
@@ -202,9 +244,9 @@ The plugin should expose these settings:
 
 Future MCP binary distribution settings may include:
 
-| Setting                          | Purpose                                                   |
-|----------------------------------|-----------------------------------------------------------|
-| Auto-check MCP updates           | Enable background checks for MCP binary updates           |
+| Setting                          | Purpose                                                    |
+|----------------------------------|------------------------------------------------------------|
+| Auto-check MCP updates           | Enable background checks for MCP binary updates            |
 | Auto-install MCP updates         | Allow automatic MCP binary installation if explicitly set  |
 
 Auto-installing MCP updates should default to disabled because MCP updates are executable binary updates.

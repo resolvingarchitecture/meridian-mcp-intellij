@@ -55,6 +55,43 @@
 - [ ] Add tests for findings filtering.
 - [ ] Add manual sandbox test checklist.
 
+### Skill/Service Workflow UX
+
+- [ ] Document that backend Skill is synonymous with Resolving Architecture Service in IntelliJ-facing docs.
+- [ ] Update action descriptions and notifications to use service/skill terminology consistently.
+- [ ] Add MCP response parsing for backend-generated workflow questions.
+- [ ] Add UI rendering for questions-required responses.
+- [ ] Add notification or tool-window panel for workflow questions.
+- [ ] Show missing-context category for each question when available.
+- [ ] Show why-it-matters explanation for each question when available.
+- [ ] Show required vs optional question status.
+- [ ] Add support for submitting answers through MCP when supported.
+- [ ] Add action placeholder for `Meridian: Answer Workflow Questions`.
+- [ ] Ensure question responses are not shown as review failures.
+- [ ] Ensure question responses clearly indicate Meridian needs more context before stronger analysis.
+
+### Architecture Model Privacy Boundary
+
+- [ ] Add user-facing copy explaining that the Architecture Model is persisted by MCP locally.
+- [ ] Add user-facing copy explaining that backend does not persist raw Architecture Models.
+- [ ] Ensure plugin does not persist Architecture Models in settings.
+- [ ] Ensure plugin does not persist raw file contents in durable plugin state.
+- [ ] Ensure plugin does not log raw Architecture Model payloads.
+- [ ] Ensure plugin does not log question answers unnecessarily.
+- [ ] Ensure diagnostics do not include raw source, API keys, secrets, or raw Architecture Model content.
+- [ ] Add tests for question response parsing.
+- [ ] Add tests for privacy-safe rendering of workflow questions.
+- [ ] Add tests proving raw Architecture Model content is not stored by the plugin.
+
+### MCP Compatibility
+
+- [ ] Update strict MCP response parser to support findings, readiness, questions, limitations, and full-review recommendations.
+- [ ] Add parser compatibility for skill workflow IDs.
+- [ ] Add parser compatibility for question IDs.
+- [ ] Add parser compatibility for question answer types.
+- [ ] Add parser compatibility for related skill/domain/stack metadata.
+- [ ] Add parser compatibility for privacy boundary metadata if MCP exposes it. 
+
 ## Backlog
 
 Keep the existing backlog items from the previous TODO as product hardening work:
