@@ -1,6 +1,6 @@
 # meridian-intellij
 
-JetBrains IntelliJ Platform plugin wrapper for Meridian, an AI architecture review assistant.
+JetBrains IntelliJ Platform plugin wrapper for Meridian, an AI architecture assistant.
 
 `meridian-intellij` is the JetBrains IDE presentation layer for Meridian. It starts or connects to a local `meridian-mcp` process, communicates with it over MCP JSON-RPC via stdio, and renders architecture findings inside IntelliJ-based IDEs.
 
@@ -8,22 +8,22 @@ JetBrains IntelliJ Platform plugin wrapper for Meridian, an AI architecture revi
 
 This repository now contains an MVP IntelliJ Platform plugin implementation.
 
-| Area                              | Status                                                                  |
-|-----------------------------------|-------------------------------------------------------------------------|
-| Gradle IntelliJ build             | Implemented                                                             |
-| IntelliJ plugin descriptor        | Implemented in `src/main/resources/META-INF/plugin.xml`                 |
-| Settings UI                       | Implemented                                                             |
-| Meridian actions                  | Implemented                                                             |
-| MCP process wrapper               | MVP implemented                                                         |
-| MCP initialize handshake          | MVP implemented                                                         |
-| Project scan action               | Implemented via MCP `scan_project` tool call                            |
-| Current-file review action        | Implemented via MCP `review_file` tool call                             |
+| Area                              | Status                                                                   |
+|-----------------------------------|--------------------------------------------------------------------------|
+| Gradle IntelliJ build             | Implemented                                                              |
+| IntelliJ plugin descriptor        | Implemented in `src/main/resources/META-INF/plugin.xml`                  |
+| Settings UI                       | Implemented                                                              |
+| Meridian actions                  | Implemented                                                              |
+| MCP process wrapper               | MVP implemented                                                          |
+| MCP initialize handshake          | MVP implemented                                                          |
+| Project scan action               | Implemented via MCP `scan_project` tool call                             |
+| Current-file review action        | Implemented via MCP `review_file` tool call                              |
 | Context actions                   | Implemented via MCP `add_context` and `clear_context` tool calls         |
-| Findings tool window              | Implemented                                                             |
-| Editor annotations/highlighting   | Not implemented yet                                                     |
-| Realtime review on save           | Not implemented yet                                                     |
-| Bundled MCP binary                | Not implemented yet; uses configured path or `meridian-mcp` from `PATH` |
-| Strict finding JSON parsing       | Not implemented yet; response parser placeholder included               |
+| Findings tool window              | Implemented                                                              |
+| Editor annotations/highlighting   | Not implemented yet                                                      |
+| Realtime review on save           | Not implemented yet                                                      |
+| Bundled MCP binary                | Not implemented yet; uses configured path or `meridian-mcp` from `PATH`  |
+| Strict finding JSON parsing       | Not implemented yet; response parser placeholder included                |
 
 ## Development setup
 

@@ -1,47 +1,58 @@
-target/
-data/
-!.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
-.env
-.env.prod
+# Gradle
+.gradle/
+build/
+out/
 
-### IntelliJ IDEA ###
-.idea
-*.iws
+# Gradle wrapper is usually committed; do NOT ignore:
+# gradle/
+# gradlew
+# gradlew.bat
+
+# IntelliJ / JetBrains project-local files
+.idea/
 *.iml
 *.ipr
+*.iws
 
-### Eclipse ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
+# IntelliJ Platform plugin sandbox / generated IDE state
+sandbox/
+run/
+tmp/
+test-output/
 
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
+# Plugin distribution artifacts
+*.zip
+*.jar
+*.hprof
+*.log
 
-### VS Code ###
-.vscode/
+# Local environment / secrets
+.env
+.env.*
+!.env.example
 
-### Mac OS ###
+# OS files
 .DS_Store
+Thumbs.db
 
-gitlab
-meridian.spvchain
-meridian.wallet
+# Editor files
+.vscode/
+*.swp
+*.swo
 
-tmp
+# Kotlin / Java / JVM temp files
+*.class
+hs_err_pid*
+replay_pid*
+
+# Node/npm if tooling ever gets added locally
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Internal Files
 deploy_script.sh
 DESIGN.md
 TODO.md
