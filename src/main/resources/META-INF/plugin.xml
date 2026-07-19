@@ -1,13 +1,13 @@
 <idea-plugin>
     <id>meridian.intellij</id>
     <name>Meridian</name>
-    <vendor email="support@resolvingarchitecture.com" url="https://resolvingarchitecture.com">
+    <vendor email="admin@resolvingarchitecture.io" url="https://resolvingarchitecture.io">
         Resolving Architecture
     </vendor>
 
     <description>
         <![CDATA[
-        Meridian is an AI architecture review assistant for IntelliJ-based IDEs.
+        Meridian is an AI architecture assistant for IntelliJ-based IDEs.
         This plugin is a thin IDE adapter over the local meridian-mcp runtime.
         ]]>
     </description>
